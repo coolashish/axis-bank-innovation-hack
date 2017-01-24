@@ -1,0 +1,49 @@
+Overall flow:
+1. Read company's name
+2. Use bing to retrieve top urls for company's name
+3. Use scrapper to fetch text from these urls
+4. Apply NLP to extract features from text
+5. Use the IEC feature from DB 
+6. Feed features to ML model to get prediction
+7. Display prediction on page
+
+Design document TODO: - All
+1. Prepare it
+
+DJANGO TODO:
+ALL:    1. Integration of all components
+Saket:  2. Deployment on heroku
+DONE:   3. Query will be company name, output should be yes/no
+    depending on whether company name is present in IEC DB
+Shubham:4. Write jaro winkler function for string compare
+
+UI TODO:
+Saket: 1. Display the data scarapped of company on the web page UI
+Saket: 2. Display the model generated score on page
+Saket: 3. Display the list of sites used to scrap information
+Saket: 4. Display the snippet returned by Bing
+
+NLP TODO:
+Shubham: 1. Extract features decided from the text scrapped
+
+Scraping:
+Ashish:
+
+ML TODO: - Ashish
+
+One-time job:
+1. Prepare train data in csv format
+2. Create model using tuning & validation
+3. Save model to file
+
+Regular job:
+1. use model to get prediction 
+
+List of features:
+1. Whether has IEC number (1/0)
+2. Number of country names found in the text scrapped
+3. Number of international city names found in text [tentative]
+4. Number of other international companies mentioned in text
+5. Use custom queries like 'manufacturing units of x', 'customer base of x'
+6. Search for words 'import' & 'export'
+7. Keywords like 'foreign exchange', 'currency exchange'
