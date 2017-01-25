@@ -8,7 +8,7 @@ class Logic:
     def __init__(self):
         pass
 
-    def process(self, company_name, isIEC):
+    def process(self, company_name, isIEC, path):
 
         search_engine = bing_search.BingSearch()
         a = search_engine.get_urls(company_name)
@@ -42,15 +42,15 @@ class Logic:
             if elem is None:
                 continue
             string += elem
-        features = nlp.main(string)
+        features = nlp.main(string, path)
 
         #Check for IEC number here
         features.append(isIEC)
 
-        self.write_to_csv(features, './tmp.csv')
+        self.write_to_csv(features, path + '/forex/tmp.csv')
 
         #TODO Call the xgboost model here
-        score = test_ml.get_prediction('./tmp.csv')
+        score = test_ml.get_prediction(path + '/forex/tmp.csv', path)
         return score
         
 

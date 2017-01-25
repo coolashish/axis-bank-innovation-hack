@@ -3,6 +3,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
 from .forms import postQuery
+import pyjarowinkler
 import main
 
 # Create your views here.
@@ -17,7 +18,7 @@ def test(request):
                         print score
                 else:
                     pass
-		return HttpResponse("Query Submitted")
+                return HttpResponse("Query Submitted, score:" + str(score))
 	elif request.method == 'POST' and request.FILES['myfile']:
 		myfile = request.FILES['myfile']
 		fs = FileSystemStorage()
@@ -31,8 +32,8 @@ def test(request):
 
 def processCompanyName(company_name):
     obj = main.Logic()
-    isIEC = isIEC(company_name)
-    score = obj.process(company_name, isIEC)
+    isiec = isIEC(company_name)
+    score = obj.process(company_name, isiec, settings.BASE_DIR)
     return score
 
 
@@ -47,14 +48,21 @@ def processCompanyFile(filePath):
 	return score_list
 
 def isIEC(company):
-        filename = './iec.csv'
+        filename = settings.BASE_DIR + '/forex/iec.csv'
         f = open(filename, 'r')
         line = f.readline()
 	flag = False
         while (line):
                 company_name = line.split('\t')[1]
-		dis = distance.get_jaro_distance(company, company_name, winkler = True, scaling = 0.1)
-		if(dis >= 0.85):
+                try:
+                    company_name = str(company_name)
+                    company = str(company)
+                    print 'Company', company
+                    print 'Company name', company_name
+		    dis = pyjarowinkler.get_jaro_distance(str(company), str(company_name), winkler = True, scaling = 0.1)
+                except Exception as e:
+                    dis = 0.7
+                if(dis >= 0.85):
 			flag = True
 			break
                 line = f.readline()

@@ -22,6 +22,11 @@ class Scrapper:
         Scrap the url given and return page text
         and maximum three links to other pages from that page
         """
+        proxies = {
+            'http': 'http://111303075:Wikipediarocks-123@10.1.101.150:3128',
+            'https': 'http://111303075:Wikipediarocks-123@10.1.101.150:3128',
+            'socks': 'socks://111303075:Wikipediarocks-123@10.1.101.150:3128'
+        }
         try:
             print  '"' + str(url) + '"'
             if url[:4] != 'http':

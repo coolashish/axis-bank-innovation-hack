@@ -6,12 +6,12 @@ from nltk.tree import Tree
 nltk.data.path.append('./nltk')
 
 
-def main(text):
+def main(text, path):
     entityList = createEntityList(text)
     
     #get trie object of countries and cities
-    countryList = getObjectFromFile('countries.pkl')
-    cityList = getObjectFromFile('cities.pkl')
+    countryList = getObjectFromFile(path + '/forex/countries.pkl')
+    cityList = getObjectFromFile(path + '/forex/cities.pkl')
         
     countryCount = findKeywordCount(entityList, countryList)
     cityCount = findKeywordCount(entityList, cityList)
